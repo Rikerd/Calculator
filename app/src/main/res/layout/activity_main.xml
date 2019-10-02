@@ -11,7 +11,7 @@
         <TextView
             android:id="@+id/expression"
             android:layout_width="match_parent"
-            android:layout_height="80sp"
+            android:layout_height="130sp"
             android:textColor="@color/numberButton"
             android:gravity="end"
             android:maxLines="1"/>
@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/result"
             android:layout_width="match_parent"
-            android:layout_height="80sp"
+            android:layout_height="130sp"
             android:textColor="@color/numberButton"
             android:gravity="end"
             android:maxLines="1"/>
@@ -34,6 +34,24 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/btnCE"
+                        style="@style/ActionButtonStyle"
+                        android:text="CE"/>
+
+                <TextView
+                        android:id="@+id/btnOpenPar"
+                        style="@style/ActionButtonStyle"
+                        android:text="("/>
+                <TextView
+                        android:id="@+id/btnClosePar"
+                        style="@style/ActionButtonStyle"
+                        android:text=")"/>
+                <TextView
+                        android:id="@+id/btnDiv"
+                        style="@style/ActionButtonStyle"
+                        android:text="/"/>
             </LinearLayout>
 
             <LinearLayout
@@ -41,6 +59,24 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/btnSeven"
+                        style="@style/NumberButtonStyle"
+                        android:text="7"/>
+
+                <TextView
+                        android:id="@+id/btnEight"
+                        style="@style/NumberButtonStyle"
+                        android:text="8"/>
+                <TextView
+                        android:id="@+id/btnNine"
+                        style="@style/NumberButtonStyle"
+                        android:text="9"/>
+                <TextView
+                        android:id="@+id/btnMult"
+                        style="@style/ActionButtonStyle"
+                        android:text="*"/>
             </LinearLayout>
 
             <LinearLayout
@@ -48,6 +84,24 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/btnFour"
+                        style="@style/NumberButtonStyle"
+                        android:text="4"/>
+
+                <TextView
+                        android:id="@+id/btnFive"
+                        style="@style/NumberButtonStyle"
+                        android:text="5"/>
+                <TextView
+                        android:id="@+id/btnSix"
+                        style="@style/NumberButtonStyle"
+                        android:text="6"/>
+                <TextView
+                        android:id="@+id/btnMinus"
+                        style="@style/ActionButtonStyle"
+                        android:text="-"/>
             </LinearLayout>
 
             <LinearLayout
@@ -55,6 +109,23 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
+                <TextView
+                        android:id="@+id/btnOne"
+                        style="@style/NumberButtonStyle"
+                        android:text="1"/>
+
+                <TextView
+                        android:id="@+id/btnTwo"
+                        style="@style/NumberButtonStyle"
+                        android:text="2"/>
+                <TextView
+                        android:id="@+id/btnThree"
+                        style="@style/NumberButtonStyle"
+                        android:text="3"/>
+                <TextView
+                        android:id="@+id/btnPlus"
+                        style="@style/ActionButtonStyle"
+                        android:text="+"/>
             </LinearLayout>
 
             <LinearLayout
@@ -64,18 +135,22 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/btnDot"
                     style="@style/NumberButtonStyle"
                     android:text="."/>
 
                 <TextView
+                        android:id="@+id/btnZero"
                         style="@style/NumberButtonStyle"
-                        android:text="0"/>
+                    android:text="0"/>
                 <TextView
+                        android:id="@+id/btnBack"
                         style="@style/NumberButtonStyle"
-                        android:text="1"/>
+                    android:text="Back"/>
                 <TextView
-                        style="@style/NumberButtonStyle"
-                        android:text="2"/>
+                        android:id="@+id/btnEq"
+                        style="@style/ActionButtonStyle"
+                    android:text="="/>
             </LinearLayout>
         </LinearLayout>
 
