@@ -14,6 +14,7 @@
             android:layout_height="130sp"
             android:textColor="@color/numberButton"
             android:gravity="end"
+            android:textSize="40dp"
             android:maxLines="1"/>
 
         <TextView
@@ -22,6 +23,7 @@
             android:layout_height="130sp"
             android:textColor="@color/numberButton"
             android:gravity="end"
+            android:textSize="30dp"
             android:maxLines="1"/>
 
         <LinearLayout
