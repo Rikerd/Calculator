@@ -2,7 +2,9 @@ package com.rikerd.calculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
+import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,9 +47,31 @@ class MainActivity : AppCompatActivity() {
 
             result.text = ""
         }
+
+        btnEq.setOnClickListener {
+            try {
+                val expression = ExpressionBuilder(expression.text.toString()).build()
+                val calcResult = expression.evaluate()
+                val longCalcResult = calcResult.toLong()
+
+                if (calcResult == longCalcResult.toDouble()) {
+                    result.text = longCalcResult.toString()
+                }
+                else {
+                    result.text = calcResult.toString()
+                }
+            } catch(e: Exception) {
+                result.text = "ERROR"
+                Log.d("Exception", " message : " + e.message)
+            }
+        }
     }
 
     fun appendOnExpression(string: String, canClear: Boolean) {
+        if (result.text.isNotEmpty()) {
+            expression.text = ""
+        }
+
         if (canClear) {
             result.text = ""
             expression.append(string)
