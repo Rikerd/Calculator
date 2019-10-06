@@ -1,8 +1,13 @@
 package com.rikerd.calculator
 
+import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 import net.objecthunter.exp4j.ExpressionBuilder
 
@@ -13,7 +18,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Numbers click listener
-        btnZero.setOnClickListener { appendOnExpression("0", true) }
+        btnZero.setOnClickListener {
+            appendOnExpression("0", true)
+            vibratePhone()
+        }
         btnOne.setOnClickListener { appendOnExpression("1", true) }
         btnTwo.setOnClickListener { appendOnExpression("2", true) }
         btnThree.setOnClickListener { appendOnExpression("3", true) }
@@ -80,6 +88,16 @@ class MainActivity : AppCompatActivity() {
             expression.append(result.text)
             expression.append(string)
             result.text = ""
+        }
+    }
+
+    fun vibratePhone() {
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            // CHANGE VIRBATION EFFECT
+            vibrator.vibrate(VibrationEffect.createOneShot(20, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(20)
         }
     }
 }
