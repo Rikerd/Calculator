@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 import net.objecthunter.exp4j.ExpressionBuilder
@@ -18,10 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Numbers click listener
-        btnZero.setOnClickListener {
-            appendOnExpression("0", true)
-            vibratePhone()
-        }
+        btnZero.setOnClickListener { appendOnExpression("0", true) }
         btnOne.setOnClickListener { appendOnExpression("1", true) }
         btnTwo.setOnClickListener { appendOnExpression("2", true) }
         btnThree.setOnClickListener { appendOnExpression("3", true) }
@@ -44,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         btnCE.setOnClickListener {
             expression.text = ""
             result.text = ""
+            vibratePhone()
         }
 
         btnBack.setOnClickListener {
@@ -54,6 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             result.text = ""
+            vibratePhone()
         }
 
         btnEq.setOnClickListener {
@@ -72,6 +72,7 @@ class MainActivity : AppCompatActivity() {
                 result.text = "ERROR"
                 Log.d("Exception", " message : " + e.message)
             }
+            vibratePhone()
         }
     }
 
@@ -89,15 +90,20 @@ class MainActivity : AppCompatActivity() {
             expression.append(string)
             result.text = ""
         }
+
+        vibratePhone()
     }
 
     fun vibratePhone() {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (Build.VERSION.SDK_INT >= 26) {
-            // CHANGE VIRBATION EFFECT
-            vibrator.vibrate(VibrationEffect.createOneShot(20, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
-            vibrator.vibrate(20)
+        Log.d(Build.VERSION.SDK_INT.toString(), "hi")
+
+        if (Build.VERSION.SDK_INT >= 29) {
+            vibrator.vibrate(VibrationEffect.createOneShot(20, VibrationEffect.EFFECT_CLICK))
+        }
+        else
+        {
+            vibrator.vibrate(VibrationEffect.createOneShot(20, 100))
         }
     }
 }
