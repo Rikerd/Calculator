@@ -114,9 +114,25 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (result.text != "ERROR") {
-                    expression.append(result.text)
+                    if (result.text == "")
+                    {
+                        val lastIndex = expression.text.get(expression.text.lastIndex).toString()
+
+                        if (lastIndex == "*" || lastIndex == "+" || lastIndex == "/" || lastIndex == "*") {
+                            expression.text = expression.text.dropLast(1)
+                            expression.append(string)
+                        }
+                        else
+                        {
+                            expression.append(string)
+                        }
+                    }
+                    else
+                    {
+                        expression.append(result.text)
+                        expression.append(string)
+                    }
                 }
-                expression.append(string)
                 result.text = ""
             }
         }
