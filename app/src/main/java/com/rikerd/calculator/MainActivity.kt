@@ -19,25 +19,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Numbers click listener
-        btnZero.setOnClickListener { appendOnExpression("0", true) }
-        btnOne.setOnClickListener { appendOnExpression("1", true) }
-        btnTwo.setOnClickListener { appendOnExpression("2", true) }
-        btnThree.setOnClickListener { appendOnExpression("3", true) }
-        btnFour.setOnClickListener { appendOnExpression("4", true) }
-        btnFive.setOnClickListener { appendOnExpression("5", true) }
-        btnSix.setOnClickListener { appendOnExpression("6", true) }
-        btnSeven.setOnClickListener { appendOnExpression("7", true) }
-        btnEight.setOnClickListener { appendOnExpression("8", true) }
-        btnNine.setOnClickListener { appendOnExpression("9", true) }
-        btnDot.setOnClickListener { appendOnExpression(".", true) }
+        btnZero.setOnClickListener { appendOnExpression("0", 0) }
+        btnOne.setOnClickListener { appendOnExpression("1", 0) }
+        btnTwo.setOnClickListener { appendOnExpression("2", 0) }
+        btnThree.setOnClickListener { appendOnExpression("3", 0) }
+        btnFour.setOnClickListener { appendOnExpression("4", 0) }
+        btnFive.setOnClickListener { appendOnExpression("5", 0) }
+        btnSix.setOnClickListener { appendOnExpression("6", 0) }
+        btnSeven.setOnClickListener { appendOnExpression("7", 0) }
+        btnEight.setOnClickListener { appendOnExpression("8", 0) }
+        btnNine.setOnClickListener { appendOnExpression("9", 0) }
+        btnDot.setOnClickListener { appendOnExpression(".", 0) }
 
         // Operators click listener
-        btnPlus.setOnClickListener { appendOnExpression("+", false) }
-        btnMinus.setOnClickListener { appendOnExpression("-", false) }
-        btnMult.setOnClickListener { appendOnExpression("*", false) }
-        btnDiv.setOnClickListener { appendOnExpression("/", false) }
-        btnOpenPar.setOnClickListener { appendOnExpression("(", false) }
-        btnClosePar.setOnClickListener { appendOnExpression(")", false) }
+        btnPlus.setOnClickListener { appendOnExpression("+", 2) }
+        btnMinus.setOnClickListener { appendOnExpression("-", 2) }
+        btnMult.setOnClickListener { appendOnExpression("*", 2) }
+        btnDiv.setOnClickListener { appendOnExpression("/", 2) }
+        btnOpenPar.setOnClickListener { appendOnExpression("(", 1) }
+        btnClosePar.setOnClickListener { appendOnExpression(")", 2) }
 
         btnCE.setOnClickListener {
             expression.text = ""
@@ -48,7 +48,8 @@ class MainActivity : AppCompatActivity() {
         btnBack.setOnClickListener {
             val expressionString = expression.text.toString()
 
-            if (expressionString.isNotEmpty()) {
+            if (expressionString.isNotEmpty())
+            {
                 expression.text = expressionString.substring(0, expressionString.length - 1)
             }
 
@@ -58,17 +59,20 @@ class MainActivity : AppCompatActivity() {
 
         btnEq.setOnClickListener {
             try {
-                val expression = ExpressionBuilder(expression.text.toString()).build()
-                val calcResult = expression.evaluate()
+                val expressionResult = ExpressionBuilder(expression.text.toString()).build()
+                val calcResult = expressionResult.evaluate()
                 val longCalcResult = calcResult.toLong()
 
                 if (calcResult == longCalcResult.toDouble()) {
                     result.text = longCalcResult.toString()
                 }
-                else {
+                else
+                {
                     result.text = calcResult.toString()
                 }
-            } catch(e: Exception) {
+            }
+            catch(e: Exception)
+            {
                 result.text = "ERROR"
                 Log.d("Exception", " message : " + e.message)
             }
@@ -76,19 +80,45 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun appendOnExpression(string: String, canClear: Boolean) {
-        if (result.text.isNotEmpty()) {
-            expression.text = ""
-        }
+    fun appendOnExpression(string: String, typeOfAppend: Int) {
+        // typeOfAppend determines how it should be appended
+        // 0: Clear result and append
+        // 1: Able to append at start of empty expression or after result
+        // 2: Only able to append if expression is not empty
 
-        if (canClear) {
+        if (typeOfAppend == 0) {
+            if (result.text.isNotEmpty()) {
+                expression.text = ""
+            }
+
             result.text = ""
             expression.append(string)
         }
-        else {
-            expression.append(result.text)
+        else if (typeOfAppend == 1)
+        {
+            if (result.text.isNotEmpty()) {
+                expression.text = ""
+            }
+
+            if (result.text != "ERROR") {
+                expression.append(result.text)
+            }
             expression.append(string)
             result.text = ""
+        }
+        else if (typeOfAppend == 2)
+        {
+            if (expression.text.isNotEmpty()) {
+                if (result.text.isNotEmpty()) {
+                    expression.text = ""
+                }
+
+                if (result.text != "ERROR") {
+                    expression.append(result.text)
+                }
+                expression.append(string)
+                result.text = ""
+            }
         }
 
         vibratePhone()
@@ -96,7 +126,6 @@ class MainActivity : AppCompatActivity() {
 
     fun vibratePhone() {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        Log.d(Build.VERSION.SDK_INT.toString(), "hi")
 
         if (Build.VERSION.SDK_INT >= 29) {
             vibrator.vibrate(VibrationEffect.createOneShot(20, VibrationEffect.EFFECT_CLICK))
