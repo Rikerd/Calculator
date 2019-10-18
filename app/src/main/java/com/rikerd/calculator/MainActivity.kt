@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         btnOpenPar.setOnClickListener { appendOnExpression("(", 1) }
         btnClosePar.setOnClickListener { appendOnExpression(")", 2) }
 
+        btnTip.setOnClickListener { appendOnExpression("*1.15", 2) }
+        btnTax.setOnClickListener { appendOnExpression("*1.0725", 2) }
+
         btnCE.setOnClickListener {
             expression.text = ""
             result.text = ""
