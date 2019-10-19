@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         btnTip.setOnClickListener { appendOnExpression("*1.15", 2) }
         btnTax.setOnClickListener { appendOnExpression("*1.0725", 2) }
 
+        btnSign.setOnClickListener { modifySign() }
+
         btnCE.setOnClickListener {
             expression.text = ""
             result.text = ""
@@ -80,6 +82,16 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Exception", " message : " + e.message)
             }
             vibratePhone()
+        }
+    }
+
+    fun modifySign() {
+        if (expression.text.isNotEmpty()) {
+            if (result.text.isNotEmpty()) {
+                expression.text = ""
+            }
+
+            
         }
     }
 
