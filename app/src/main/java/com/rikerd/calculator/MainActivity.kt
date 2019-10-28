@@ -85,14 +85,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Modifies the sign of number to be positive or negative
     fun modifySign() {
         if (expression.text.isNotEmpty()) {
             if (result.text.isNotEmpty()) {
                 expression.text = ""
             }
 
-            
+            if (result.text != "ERROR") {
+                if (result.text == "")
+                {
+
+                }
+                else
+                {
+                    expression.append(result.text)
+
+                    if (expression.text.startsWith('-')) {
+                        expression.text = expression.text.drop(1)
+                    }
+                    else {
+                        expression.text = "-" + expression.text
+                    }
+                }
+            }
+            result.text = ""
         }
+
+        vibratePhone()
     }
 
     fun appendOnExpression(string: String, typeOfAppend: Int) {
@@ -131,9 +151,8 @@ class MainActivity : AppCompatActivity() {
                 if (result.text != "ERROR") {
                     if (result.text == "")
                     {
-                        val lastIndex = expression.text.get(expression.text.lastIndex).toString()
-
-                        if (lastIndex == "*" || lastIndex == "+" || lastIndex == "/" || lastIndex == "*") {
+                        if (expression.text.endsWith('*') || expression.text.endsWith('+') ||
+                            expression.text.endsWith('/') || expression.text.endsWith('-')) {
                             expression.text = expression.text.dropLast(1)
                             expression.append(string)
                         }
