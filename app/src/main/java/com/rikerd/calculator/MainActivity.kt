@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 import net.objecthunter.exp4j.ExpressionBuilder
 
@@ -19,28 +17,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Numbers click listener
-        btnZero.setOnClickListener { appendOnExpression("0", 0) }
-        btnOne.setOnClickListener { appendOnExpression("1", 0) }
-        btnTwo.setOnClickListener { appendOnExpression("2", 0) }
-        btnThree.setOnClickListener { appendOnExpression("3", 0) }
-        btnFour.setOnClickListener { appendOnExpression("4", 0) }
-        btnFive.setOnClickListener { appendOnExpression("5", 0) }
-        btnSix.setOnClickListener { appendOnExpression("6", 0) }
-        btnSeven.setOnClickListener { appendOnExpression("7", 0) }
-        btnEight.setOnClickListener { appendOnExpression("8", 0) }
-        btnNine.setOnClickListener { appendOnExpression("9", 0) }
-        btnDot.setOnClickListener { appendOnExpression(".", 0) }
+        btnZero.setOnClickListener { appendDigit("0") }
+        btnOne.setOnClickListener { appendDigit("1") }
+        btnTwo.setOnClickListener { appendDigit("2") }
+        btnThree.setOnClickListener { appendDigit("3") }
+        btnFour.setOnClickListener { appendDigit("4") }
+        btnFive.setOnClickListener { appendDigit("5") }
+        btnSix.setOnClickListener { appendDigit("6") }
+        btnSeven.setOnClickListener { appendDigit("7") }
+        btnEight.setOnClickListener { appendDigit("8") }
+        btnNine.setOnClickListener { appendDigit("9") }
+        btnDot.setOnClickListener { appendDigit(".") }
 
         // Operators click listener
-        btnPlus.setOnClickListener { appendOnExpression("+", 2) }
-        btnMinus.setOnClickListener { appendOnExpression("-", 2) }
-        btnMult.setOnClickListener { appendOnExpression("*", 2) }
-        btnDiv.setOnClickListener { appendOnExpression("/", 2) }
-        btnOpenPar.setOnClickListener { appendOnExpression("(", 1) }
-        btnClosePar.setOnClickListener { appendOnExpression(")", 2) }
+        btnPlus.setOnClickListener { appendOperator("+") }
+        btnMinus.setOnClickListener { appendOperator("-") }
+        btnMult.setOnClickListener { appendOperator("*") }
+        btnDiv.setOnClickListener { appendOperator("/") }
+        btnOpenPar.setOnClickListener { appendOpenPar("(") }
+        btnClosePar.setOnClickListener { appendOperator(")") }
 
-        btnTip.setOnClickListener { appendOnExpression("*1.15", 2) }
-        btnTax.setOnClickListener { appendOnExpression("*1.0725", 2) }
+        btnTip.setOnClickListener { appendOperator("*1.15") }
+        btnTax.setOnClickListener { appendOperator("*1.0725") }
 
         btnSign.setOnClickListener { modifySign() }
 
@@ -134,61 +132,59 @@ class MainActivity : AppCompatActivity() {
         vibratePhone()
     }
 
-    fun appendOnExpression(string: String, typeOfAppend: Int) {
-        // typeOfAppend determines how it should be appended
-        // 0: Clear result and append
-        // 1: Able to append at start of empty expression or after result
-        // 2: Only able to append if expression is not empty
-
-        if (typeOfAppend == 0) {
-            if (result.text.isNotEmpty()) {
-                expression.text = ""
-            }
-
-            result.text = ""
-            expression.append(string)
-        }
-        else if (typeOfAppend == 1)
-        {
+    // Appends the proper operator the end after checking conditions
+    fun appendOperator(string: String) {
+        if (expression.text.isNotEmpty()) {
             if (result.text.isNotEmpty()) {
                 expression.text = ""
             }
 
             if (result.text != "ERROR") {
-                expression.append(result.text)
-            }
-            expression.append(string)
-            result.text = ""
-        }
-        else if (typeOfAppend == 2)
-        {
-            if (expression.text.isNotEmpty()) {
-                if (result.text.isNotEmpty()) {
-                    expression.text = ""
-                }
-
-                if (result.text != "ERROR") {
-                    if (result.text == "")
-                    {
-                        if (expression.text.endsWith('*') || expression.text.endsWith('+') ||
-                            expression.text.endsWith('/') || expression.text.endsWith('-')) {
-                            expression.text = expression.text.dropLast(1)
-                            expression.append(string)
-                        }
-                        else
-                        {
-                            expression.append(string)
-                        }
+                if (result.text == "")
+                {
+                    if (expression.text.endsWith('*') || expression.text.endsWith('+') ||
+                        expression.text.endsWith('/') || expression.text.endsWith('-')) {
+                        expression.text = expression.text.dropLast(1)
+                        expression.append(string)
                     }
                     else
                     {
-                        expression.append(result.text)
                         expression.append(string)
                     }
                 }
-                result.text = ""
+                else
+                {
+                    expression.append(result.text)
+                    expression.append(string)
+                }
             }
+            result.text = ""
         }
+
+        vibratePhone()
+    }
+
+    fun appendOpenPar(string: String) {
+        if (result.text.isNotEmpty()) {
+            expression.text = ""
+        }
+
+        if (result.text != "ERROR") {
+            expression.append(result.text)
+        }
+        expression.append(string)
+        result.text = ""
+
+        vibratePhone()
+    }
+
+    fun appendDigit(string: String) {
+        if (result.text.isNotEmpty()) {
+            expression.text = ""
+        }
+
+        result.text = ""
+        expression.append(string)
 
         vibratePhone()
     }
