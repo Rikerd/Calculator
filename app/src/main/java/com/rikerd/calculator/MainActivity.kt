@@ -95,7 +95,25 @@ class MainActivity : AppCompatActivity() {
             if (result.text != "ERROR") {
                 if (result.text == "")
                 {
+                    val endDigits = expression.text.takeLastWhile { it.isDigit() }
 
+                    if (endDigits.isEmpty()) {
+                        result.text = ""
+                        vibratePhone()
+                        return
+                    }
+
+                    expression.text = expression.text.trimEnd{ it.isDigit() }
+
+                    if (expression.text.endsWith("(-")) {
+                        expression.text = expression.text.dropLast(2)
+                        expression.append(endDigits)
+                    }
+                    else
+                    {
+                        expression.append("(-" + endDigits)
+
+                    }
                 }
                 else
                 {
@@ -104,7 +122,8 @@ class MainActivity : AppCompatActivity() {
                     if (expression.text.startsWith('-')) {
                         expression.text = expression.text.drop(1)
                     }
-                    else {
+                    else
+                    {
                         expression.text = "-" + expression.text
                     }
                 }
