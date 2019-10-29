@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import net.objecthunter.exp4j.ExpressionBuilder
 
@@ -15,6 +16,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        window.decorView.apply {
+            // Hide both the navigation bar and the status bar.
+            // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+            // a general rule, you should design your app to hide the status bar whenever you
+            // hide the navigation bar.
+            systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
 
         // Numbers click listener
         btnZero.setOnClickListener { appendDigit("0") }
@@ -192,12 +201,6 @@ class MainActivity : AppCompatActivity() {
     fun vibratePhone() {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-        if (Build.VERSION.SDK_INT >= 29) {
-            vibrator.vibrate(VibrationEffect.createOneShot(20, VibrationEffect.EFFECT_CLICK))
-        }
-        else
-        {
-            vibrator.vibrate(VibrationEffect.createOneShot(20, 100))
-        }
+        vibrator.vibrate(VibrationEffect.createOneShot(20, 100))
     }
 }
